@@ -39,11 +39,18 @@ enum custom_keycodes
 #define KC_SPC_CTRL MT(KC_LCTL,KC_SPC)
 #define KC_TAB_FN LT(_RAISE,KC_TAB)
 #define KC_ESCP F(0) //Mimic Pok3r escape key (Shitf+Esc is ~, Fn+Esc is `)
+#define KC_LSFTC F(1) //Press both shifts to toggle caps lock
+#define KC_RSFTC F(2)
 #define GRAVE_MODS (MOD_BIT(KC_LSFT)|MOD_BIT(KC_RSFT))
+#define CAPS_MODS (MOD_BIT(KC_LSFT)&MOD_BIT(KC_RSFT))
+
 #define ACT_ESC 0
+#define ACT_LCAPS 1
+#define ACT_RCAPS 2
 
 //Moving to different layers
 #define KC_LOWER MO(_LOWER)
+
 #define KC_LOWER_PERM TO(_LOWER)
 #define KC_ADJUST TO(_ADJUST)
 #define KC_DEFAULT TO(_DEFAULT)
@@ -182,7 +189,9 @@ enum function_id {
 };
 
 const uint16_t PROGMEM fn_actions[] = {
-	[0]  = ACTION_FUNCTION(0),
+	[ACT_ESC]   = ACTION_FUNCTION(ACT_ESC),
+	[ACT_LCAPS] = ACTION_FUNCTION(ACT_LCAPS),
+	[ACT_RCAPS] = ACTION_FUNCTION(ACT_RCAPS)
 };
 
 
@@ -227,5 +236,54 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
 				}
 			}
 			break;
+
+		case ACT_LCAPS:
+			mods_pressed=get_mods()&CAPS_MODS; //Check to see what mods are pressed
+			if(record->event.pressed) //If the key is being pressed
+			{
+				if(!mods_pressed)
+				{
+					add_key(KC_LSFT);
+					send_keyboard_report();
+				} else
+				{
+					//toggle caps lock
+					add_key(KC_CAPS);
+					send_keyboard_report();
+					del_key(KC_CAPS);
+					send_keyboard_report();
+				}
+			} else //if key is being released
+			{
+				if(mods_pressed)
+				{
+					del_key(KC_LSFT);
+					send_keyboard_report();
+				}
+			}
+		case ACT_RCAPS:
+			mods_pressed=get_mods()&CAPS_MODS; //Check to see what mods are pressed
+			if(record->event.pressed) //If the key is being pressed
+			{
+				if(!mods_pressed)
+				{
+					add_key(KC_RSFT);
+					send_keyboard_report();
+				} else
+				{
+					//toggle caps lock
+					add_key(KC_CAPS);
+					send_keyboard_report();
+					del_key(KC_CAPS);
+					send_keyboard_report();
+				}
+			} else //if key is being released
+			{
+				if(mods_pressed)
+				{
+					del_key(KC_RSFT);
+					send_keyboard_report();
+				}
+			}
 	}
 }
