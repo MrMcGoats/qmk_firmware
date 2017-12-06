@@ -15,7 +15,9 @@ enum layers
     _ADJUST,
     _GAME1,
     _GRAISE,
-    _GAME2
+    _GAME2,
+    _LABEL,
+    _LABEL_FN
 };
 
 
@@ -56,9 +58,14 @@ enum custom_keycodes
 #define KC_GAME1 TO(_GAME1)
 #define KC_GAME2 TO(_GAME2)
 #define KC_GRAISE MO(_GRAISE)
+#define KC_LABEL_DEFAULT TO(_LABEL)
+#define KC_LABEL_FN MO(_LABEL_FN)
 
 //Macro to toggle caps lock
 #define TOGGLE_CAPS do { add_key(KC_CAPS); send_keyboard_report(); del_key(KC_CAPS); send_keyboard_report(); } while(0)
+
+//Some keycodes don't have the KC_ suffix, so I have to add it so they work with the JD45 KEYMAP macro
+#define KC_RESET RESET
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -117,9 +124,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             ),
     /* Adjust
      * ¸---------------------------------------------------------------------------¸
-     * |   |Defau|Game1|Game2|Lower|     |     |     |     |     |     |     |     |
+     * |   |Defau|Game1|Game2|Lower|     |     |     |     |     |     |     |RESET|
      * |---------------------------------------------------------------------------|
-     * |      |     |     |     |     |     |     |     |     |     |     |        |
+     * |      |Label|     |     |     |     |     |     |     |     |     |        |
      * |---------------------------------------------------------------------------|
      * |       |     |     |     |     |     |     |     |     |     |     |       |
      * |---------------------------------------------------------------------------|
@@ -127,8 +134,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ´---------------------------------------------------------------------------´
      */
     [_ADJUST] = KEYMAP(
-            XXXXXXX, DEFAULT, GAME1, GAME2, LOWER_PERM, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+            XXXXXXX, DEFAULT, GAME1, GAME2, LOWER_PERM, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RESET,
+            XXXXXXX, LABEL_DEFAULT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
             ),
@@ -182,7 +189,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             _______, F1, F2, F3, F4, F5, LEFT, DOWN, UP, RGHT, _______, _______,
             _______, F6, F7, F8, F9, F10, F11, F12, APP, _______, PSCR, PAUS,
             _______, _______, _______, _______, _______, DEL, _______, _______, _______, ADJUST
+            ),
+    /* Label — Layout to match how the stock keycaps are labeled
+     * ¸---------------------------------------------------------------------------¸
+     * |ESC|  Q  |  W  |  E  |  R  |  T  |  Y  |  U  |  I  |  O  |  P  |  [  | Bs  |
+     * |---------------------------------------------------------------------------|
+     * | TAB  |  A  |  S  |  D  |  F  |  G  |  H  |  J  |  K  |  L  |  '  |  Enter |
+     * |---------------------------------------------------------------------------|
+     * | Shift |  Z  |  X  |  C  |  V  |  B  |  N  |  M  |  ,  |  .  |  /  | Shift |
+     * |---------------------------------------------------------------------------|
+     * | Ctrl | Fn  |  Win  |  Alt  | Back   |  Space |  Alt  | Menu  |  Fn | Ctrl |
+     * ´---------------------------------------------------------------------------´
+     */
+    [_LABEL] = KEYMAP(
+            ESC, Q, W, E, R, T, Y, U, I, O, P, RBRC, BSPC,
+            TAB, A, S, D, F, G, H, J, K, L, QUOT, ENT,
+            LSFT, Z, X, C, V, B, N, M, COMM, DOT, SLSH, RSFT,
+            LCTRL, LABEL_FN, LGUI, LALT, BSPC, SPC, RALT, APP, LABEL_FN, RCTRL
+            ),
+    /* Label-Fn — Layout to match how the stock keycaps are labeled (Function layer), with the adition of the ADJUST key.
+     * ¸---------------------------------------------------------------------------¸
+     * | ` |     | Up  |     |  7  |  8  |  9  |  0  |  -  |  =  |     |  ]  |  \  |
+     * |---------------------------------------------------------------------------|
+     * | Caps |  ←  |  Dn |  →  |  4  |  5  |  6  | Ins | Home| PgUp|  ;  |        |
+     * |---------------------------------------------------------------------------|
+     * |       |     |     |     |  1  |  2  |  3  | Del | End | PgDn|     |       |
+     * |---------------------------------------------------------------------------|
+     * |      |     |       |       |        |        |       |       |     |ADJUST|
+     * ´---------------------------------------------------------------------------´
+     */
+    [_LABEL_FN] = KEYMAP(
+            GRV, _______, UP, _______, 7, 8, 9, 0, MINS, EQL, _______, LBRC, BSLS,
+            CAPS, LEFT, DOWN, RGHT, 4, 5, 6, INS, HOME, PGUP, SCLN, _______,
+            _______, _______, _______, _______, 1, 2, 3, DEL, END, PGDN, _______, _______,
+            _______, _______, _______, _______, _______, _______, _______, _______, _______, ADJUST
             )
+    
 };
 
 
