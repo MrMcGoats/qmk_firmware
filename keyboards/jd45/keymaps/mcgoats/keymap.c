@@ -14,8 +14,8 @@ enum layers
     _RAISE,
     _ADJUST,
     _GAME1,
-    _GRAISE,
     _GAME2,
+    _GRAISE,
     _LABEL,
     _LABEL_FN
 };
