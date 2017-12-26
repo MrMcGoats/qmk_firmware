@@ -31,24 +31,21 @@ enum custom_keycodes
     ADJUST
 };
 
-
+enum actions
+{
+    ACT_LCAPS,
+    ACT_RCAPS
+};
 
 
 
 // increase readability 
 #define KC________ KC_TRNS
 #define KC_XXXXXXX KC_NO
-#define KC_SPC_CTRL MT(KC_LCTL,KC_SPC)
+#define KC_SPC_CTRL MT(MOD_LCTL,KC_SPC)
 #define KC_TAB_FN LT(_RAISE,KC_TAB)
-#define KC_ESCP F(0) //Mimic Pok3r escape key (Shitf+Esc is ~, Fn+Esc is `)
-#define KC_LSFTC F(1) //Press both shifts to toggle caps lock
-#define KC_RSFTC F(2)
-#define GRAVE_MODS (MOD_BIT(KC_LSFT)|MOD_BIT(KC_RSFT))
-#define CAPS_MODS (MOD_BIT(KC_LSFT)&MOD_BIT(KC_RSFT))
-
-#define ACT_ESC 0
-#define ACT_LCAPS 1
-#define ACT_RCAPS 2
+#define KC_LSFTC F(ACT_LCAPS) //Press both shifts to toggle caps lock
+#define KC_RSFTC F(ACT_RCAPS)
 
 //Moving to different layers
 #define KC_LOWER MO(_LOWER)
@@ -71,7 +68,7 @@ enum custom_keycodes
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Default (Colmak)
      * ¸---------------------------------------------------------------------------¸
-     * |ESP|  Q  |  W  |  F  |  P  |  G  |  J  |  L  |  U  |  Y  |  ;  |  '  |  \  |
+     * |   |  Q  |  W  |  F  |  P  |  G  |  J  |  L  |  U  |  Y  |  ;  |  '  |  \  |
      * |---------------------------------------------------------------------------|
      * |TABFN |  A  |  R  |  S  |  T  |  D  |  H  |  N  |  E  |  I  |  O  |  Enter |
      * |---------------------------------------------------------------------------|
@@ -81,15 +78,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ´---------------------------------------------------------------------------´
      */
     [_DEFAULT] = KEYMAP(
-            ESCP, Q, W, F, P, G, J, L, U, Y, SCLN, QUOT, BSLS,
+            XXXXXXX, Q, W, F, P, G, J, L, U, Y, SCLN, QUOT, BSLS,
             TAB_FN, A, R, S, T, D, H, N, E, I, O, ENT,
-            LSFT, Z, X, C, V, B, K, M, COMM, DOT, SLSH, RSFT,
+            LSFTC, Z, X, C, V, B, K, M, COMM, DOT, SLSH, RSFTC,
             LOWER, MEH, LGUI, LALT, SPC_CTRL, BSPC, XXXXXXX, RGUI, XXXXXXX, XXXXXXX
             ),
 
     /* Raise
      * ¸---------------------------------------------------------------------------¸
-     * | ` |  !  |  @  |  #  |  $  |  %  |  ^  |  &  |  *  |  (  |  )  |  -  |  =  |
+     * |   |  !  |  @  |  #  |  $  |  %  |  ^  |  &  |  *  |  (  |  )  |  -  |  =  |
      * |---------------------------------------------------------------------------|
      * |      |Prev |Play |Next |     |     |  ←  |  Dn |  Up |  →  |     |        |
      * |---------------------------------------------------------------------------|
@@ -99,9 +96,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ´---------------------------------------------------------------------------´
      */
     [_RAISE] = KEYMAP(
-            GRV, EXLM, AT, HASH, DLR, PERC, CIRC, AMPR, ASTR, LPRN, RPRN, MINS, EQL,
+            _______, EXLM, AT, HASH, DLR, PERC, CIRC, AMPR, ASTR, LPRN, RPRN, MINS, EQL,
             _______, MEDIA_PREV_TRACK, MEDIA_PLAY_PAUSE, MEDIA_NEXT_TRACK, _______, _______, LEFT, DOWN, UP, RGHT, _______, _______,
-            _______, APP, _______, _______, _______, _______, END, PGDN, PGUP, HOME, PSCR, PAUS,
+            ESC, APP, GRV, _______, _______, _______, END, PGDN, PGUP, HOME, PSCR, PAUS,
             _______, _______, _______, _______, _______, DEL, _______, _______, _______, ADJUST
             ),
 
@@ -141,7 +138,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             ),
     /* Gaming (Colmak)
      * ¸---------------------------------------------------------------------------¸
-     * |ESP|  Q  |  W  |  F  |  P  |  G  |  J  |  L  |  U  |  Y  |  ;  |  '  | End |
+     * |   |  Q  |  W  |  F  |  P  |  G  |  J  |  L  |  U  |  Y  |  ;  |  '  | End |
      * |---------------------------------------------------------------------------|
      * | TAB  |  A  |  R  |  S  |  T  |  D  |  H  |  N  |  E  |  I  |  O  |  Enter |
      * |---------------------------------------------------------------------------|
@@ -151,14 +148,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ´---------------------------------------------------------------------------´
      */
     [_GAME1] = KEYMAP(
-            ESCP, Q, W, F, P, G, J, L, U, Y, SCLN, QUOT, END,
+            XXXXXXX, Q, W, F, P, G, J, L, U, Y, SCLN, QUOT, END,
             TAB, A, R, S, T, D, H, N, E, I, O, ENT,
             LSFT, Z, X, C, V, B, K, M, COMM, DOT, UP, RSFT,
             LCTRL, BSLS, GRAISE, LALT, SPC, BSPC, SLSH, LEFT, DOWN, RGHT
             ),
     /* Gaming (QWERTY)
      * ¸---------------------------------------------------------------------------¸
-     * |ESP|  Q  |  W  |  E  |  R  |  T  |  Y  |  U  |  I  |  O  |  P  |  '  | End |
+     * |   |  Q  |  W  |  E  |  R  |  T  |  Y  |  U  |  I  |  O  |  P  |  '  | End |
      * |---------------------------------------------------------------------------|
      * | TAB  |  A  |  S  |  D  |  F  |  G  |  H  |  J  |  K  |  L  |  ;  |  Enter |
      * |---------------------------------------------------------------------------|
@@ -168,14 +165,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ´---------------------------------------------------------------------------´
      */
     [_GAME2] = KEYMAP(
-            ESCP, Q, W, E, R, T, Y, U, I, O, P, QUOT, END,
+            XXXXXXX, Q, W, E, R, T, Y, U, I, O, P, QUOT, END,
             TAB, A, S, D, F, G, H, J, K, L, SCLN, ENT,
             LSFT, Z, X, C, V, B, N, M, COMM, DOT, UP, RSFT,
             LCTRL, BSLS, GRAISE, LALT, SPC, BSPC, SLSH, LEFT, DOWN, RGHT
             ),
     /* GRaise
      * ¸---------------------------------------------------------------------------¸
-     * | ` |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  0  |  -  |  =  |
+     * |   |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  0  |  -  |  =  |
      * |---------------------------------------------------------------------------|
      * |      |  F1 |  F2 | F3  | F4  |  F5 |  ←  |  Dn |  Up |  →  |     |        |
      * |---------------------------------------------------------------------------|
@@ -185,10 +182,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ´---------------------------------------------------------------------------´
      */
     [_GRAISE] = KEYMAP(
-            GRV, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, MINS, EQL,
-            _______, F1, F2, F3, F4, F5, LEFT, DOWN, UP, RGHT, _______, _______,
+            _______, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, MINS, EQL,
+            ESC, F1, F2, F3, F4, F5, LEFT, DOWN, UP, RGHT, _______, _______,
             _______, F6, F7, F8, F9, F10, F11, F12, APP, _______, PSCR, PAUS,
-            _______, _______, _______, _______, _______, DEL, _______, _______, _______, ADJUST
+            _______, GRV, _______, _______, _______, DEL, _______, _______, _______, ADJUST
             ),
     /* Label — Layout to match how the stock keycaps are labeled
      * ¸---------------------------------------------------------------------------¸
@@ -234,7 +231,6 @@ enum function_id {
 };
 
 const uint16_t PROGMEM fn_actions[] = {
-    [ACT_ESC]   = ACTION_FUNCTION(ACT_ESC),
     [ACT_LCAPS] = ACTION_FUNCTION(ACT_LCAPS),
     [ACT_RCAPS] = ACTION_FUNCTION(ACT_RCAPS)
 };
@@ -251,81 +247,51 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 
 void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
-    static uint8_t mods_pressed;
+    static bool lshift=false;
+    static bool rshift=false;
 
     switch(id)
     {
-        case ACT_ESC:
-            mods_pressed=get_mods()&GRAVE_MODS; //Check to see what mods are pressed
-            if(record->event.pressed) //If the key is being pressed
-            {
-                if(!mods_pressed)
-                {
-                    add_key(KC_GRV);
-                    send_keyboard_report();
-                } else
-                {
-                    add_key(KC_ESC);
-                    send_keyboard_report();
-                }
-            } else //If the key is being released
-            {
-                if(mods_pressed)
-                {
-                    del_key(KC_GRV);
-                    send_keyboard_report();
-                } else
-                {
-                    del_key(KC_ESC);
-                    send_keyboard_report();
-                }
-            }
-            break;
-
         case ACT_LCAPS:
-            mods_pressed=get_mods()&CAPS_MODS; //Check to see what mods are pressed
             if(record->event.pressed) //If the key is being pressed
             {
-                if(!mods_pressed)
+                if(!rshift)
                 {
                     add_key(KC_LSFT);
                     send_keyboard_report();
+                    lshift=true;
                 } else
-                {
-                    //toggle caps lock
-                    add_key(KC_CAPS);
-                    send_keyboard_report();
-                    del_key(KC_CAPS);
-                    send_keyboard_report();
-                }
+                   TOGGLE_CAPS; 
             } else //if key is being released
             {
-                if(mods_pressed)
+                if(!rshift)
                 {
                     del_key(KC_LSFT);
                     send_keyboard_report();
+                    lshift=false;
                 }
             }
+            break;
         case ACT_RCAPS:
-            mods_pressed=get_mods()&CAPS_MODS; //Check to see what mods are pressed
             if(record->event.pressed) //If the key is being pressed
             {
-                if(!mods_pressed)
+                if(!lshift)
                 {
                     add_key(KC_RSFT);
                     send_keyboard_report();
+                    rshift=true;
                 } else
-                {
                     TOGGLE_CAPS;
-                }
             } else //if key is being released
             {
-                if(mods_pressed)
+                if(!lshift)
                 {
                     del_key(KC_RSFT);
                     send_keyboard_report();
+                    rshift=false;
                 }
             }
+            break;
     }
 }
 
