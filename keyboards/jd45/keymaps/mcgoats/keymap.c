@@ -21,20 +21,11 @@ enum layers
 };
 
 
-
-
-enum custom_keycodes
-{
-    COLEMAK = SAFE_RANGE,
-    RAISE,
-    LOWER,
-    ADJUST
-};
-
 enum actions
 {
     ACT_LCAPS,
-    ACT_RCAPS
+    ACT_RCAPS,
+    ACT_ESC,
 };
 
 
@@ -46,6 +37,7 @@ enum actions
 #define KC_TAB_FN LT(_RAISE,KC_TAB)
 #define KC_LSFTC F(ACT_LCAPS) //Press both shifts to toggle caps lock
 #define KC_RSFTC F(ACT_RCAPS)
+#define KC_ESCP F(ACT_ESC)
 
 //Moving to different layers
 #define KC_LOWER MO(_LOWER)
@@ -61,14 +53,10 @@ enum actions
 //Macro to toggle caps lock
 #define TOGGLE_CAPS do { add_key(KC_CAPS); send_keyboard_report(); del_key(KC_CAPS); send_keyboard_report(); } while(0)
 
-//Some keycodes don't have the KC_ suffix, so I have to add it so they work with the JD45 KEYMAP macro
-#define KC_RESET RESET
-
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Default (Colmak)
      * ¸---------------------------------------------------------------------------¸
-     * |   |  Q  |  W  |  F  |  P  |  G  |  J  |  L  |  U  |  Y  |  ;  |  '  |  \  |
+     * |ESC|  Q  |  W  |  F  |  P  |  G  |  J  |  L  |  U  |  Y  |  ;  |  '  |  \  |
      * |---------------------------------------------------------------------------|
      * |TABFN |  A  |  R  |  S  |  T  |  D  |  H  |  N  |  E  |  I  |  O  |  Enter |
      * |---------------------------------------------------------------------------|
@@ -78,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ´---------------------------------------------------------------------------´
      */
     [_DEFAULT] = KEYMAP(
-            XXXXXXX, Q, W, F, P, G, J, L, U, Y, SCLN, QUOT, BSLS,
+            ESCP, Q, W, F, P, G, J, L, U, Y, SCLN, QUOT, BSLS,
             TAB_FN, A, R, S, T, D, H, N, E, I, O, ENT,
             LSFTC, Z, X, C, V, B, K, M, COMM, DOT, SLSH, RSFTC,
             LOWER, MEH, LGUI, LALT, SPC_CTRL, BSPC, XXXXXXX, RGUI, XXXXXXX, XXXXXXX
@@ -86,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* Raise
      * ¸---------------------------------------------------------------------------¸
-     * |   |  !  |  @  |  #  |  $  |  %  |  ^  |  &  |  *  |  (  |  )  |  -  |  =  |
+     * | ` |  !  |  @  |  #  |  $  |  %  |  ^  |  &  |  *  |  (  |  )  |  -  |  =  |
      * |---------------------------------------------------------------------------|
      * |      |Prev |Play |Next |     |     |  ←  |  Dn |  Up |  →  |     |        |
      * |---------------------------------------------------------------------------|
@@ -96,9 +84,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ´---------------------------------------------------------------------------´
      */
     [_RAISE] = KEYMAP(
-            _______, EXLM, AT, HASH, DLR, PERC, CIRC, AMPR, ASTR, LPRN, RPRN, MINS, EQL,
+            GRV, EXLM, AT, HASH, DLR, PERC, CIRC, AMPR, ASTR, LPRN, RPRN, MINS, EQL,
             _______, MEDIA_PREV_TRACK, MEDIA_PLAY_PAUSE, MEDIA_NEXT_TRACK, _______, _______, LEFT, DOWN, UP, RGHT, _______, _______,
-            ESC, APP, GRV, _______, _______, _______, END, PGDN, PGUP, HOME, PSCR, PAUS,
+            _______, APP, _______, _______, _______, _______, END, PGDN, PGUP, HOME, PSCR, PAUS,
             _______, _______, _______, _______, _______, DEL, _______, _______, _______, ADJUST
             ),
 
@@ -121,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             ),
     /* Adjust
      * ¸---------------------------------------------------------------------------¸
-     * |   |Defau|Game1|Game2|Lower|     |     |     |     |     |     |     |RESET|
+     * |   |Defau|Game1|Game2|Lower|     |     |     |     |     |     |     |     |
      * |---------------------------------------------------------------------------|
      * |      |Label|     |     |     |     |     |     |     |     |     |        |
      * |---------------------------------------------------------------------------|
@@ -131,14 +119,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ´---------------------------------------------------------------------------´
      */
     [_ADJUST] = KEYMAP(
-            XXXXXXX, DEFAULT, GAME1, GAME2, LOWER_PERM, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RESET,
+            XXXXXXX, DEFAULT, GAME1, GAME2, LOWER_PERM, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
             XXXXXXX, LABEL_DEFAULT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
             ),
     /* Gaming (Colmak)
      * ¸---------------------------------------------------------------------------¸
-     * |   |  Q  |  W  |  F  |  P  |  G  |  J  |  L  |  U  |  Y  |  ;  |  '  | End |
+     * |ESC|  Q  |  W  |  F  |  P  |  G  |  J  |  L  |  U  |  Y  |  ;  |  '  | End |
      * |---------------------------------------------------------------------------|
      * | TAB  |  A  |  R  |  S  |  T  |  D  |  H  |  N  |  E  |  I  |  O  |  Enter |
      * |---------------------------------------------------------------------------|
@@ -148,14 +136,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ´---------------------------------------------------------------------------´
      */
     [_GAME1] = KEYMAP(
-            XXXXXXX, Q, W, F, P, G, J, L, U, Y, SCLN, QUOT, END,
+            ESCP, Q, W, F, P, G, J, L, U, Y, SCLN, QUOT, END,
             TAB, A, R, S, T, D, H, N, E, I, O, ENT,
             LSFT, Z, X, C, V, B, K, M, COMM, DOT, UP, RSFT,
             LCTRL, BSLS, GRAISE, LALT, SPC, BSPC, SLSH, LEFT, DOWN, RGHT
             ),
     /* Gaming (QWERTY)
      * ¸---------------------------------------------------------------------------¸
-     * |   |  Q  |  W  |  E  |  R  |  T  |  Y  |  U  |  I  |  O  |  P  |  '  | End |
+     * |ESC|  Q  |  W  |  E  |  R  |  T  |  Y  |  U  |  I  |  O  |  P  |  '  | End |
      * |---------------------------------------------------------------------------|
      * | TAB  |  A  |  S  |  D  |  F  |  G  |  H  |  J  |  K  |  L  |  ;  |  Enter |
      * |---------------------------------------------------------------------------|
@@ -165,14 +153,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ´---------------------------------------------------------------------------´
      */
     [_GAME2] = KEYMAP(
-            XXXXXXX, Q, W, E, R, T, Y, U, I, O, P, QUOT, END,
+            ESCP, Q, W, E, R, T, Y, U, I, O, P, QUOT, END,
             TAB, A, S, D, F, G, H, J, K, L, SCLN, ENT,
             LSFT, Z, X, C, V, B, N, M, COMM, DOT, UP, RSFT,
             LCTRL, BSLS, GRAISE, LALT, SPC, BSPC, SLSH, LEFT, DOWN, RGHT
             ),
     /* GRaise
      * ¸---------------------------------------------------------------------------¸
-     * |   |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  0  |  -  |  =  |
+     * | ` |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  0  |  -  |  =  |
      * |---------------------------------------------------------------------------|
      * |      |  F1 |  F2 | F3  | F4  |  F5 |  ←  |  Dn |  Up |  →  |     |        |
      * |---------------------------------------------------------------------------|
@@ -182,10 +170,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ´---------------------------------------------------------------------------´
      */
     [_GRAISE] = KEYMAP(
-            _______, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, MINS, EQL,
-            ESC, F1, F2, F3, F4, F5, LEFT, DOWN, UP, RGHT, _______, _______,
+            GRV, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, MINS, EQL,
+            _______, F1, F2, F3, F4, F5, LEFT, DOWN, UP, RGHT, _______, _______,
             _______, F6, F7, F8, F9, F10, F11, F12, APP, _______, PSCR, PAUS,
-            _______, GRV, _______, _______, _______, DEL, _______, _______, _______, ADJUST
+            _______, _______, _______, _______, _______, DEL, _______, _______, _______, ADJUST
             ),
     /* Label — Layout to match how the stock keycaps are labeled
      * ¸---------------------------------------------------------------------------¸
@@ -232,7 +220,8 @@ enum function_id {
 
 const uint16_t PROGMEM fn_actions[] = {
     [ACT_LCAPS] = ACTION_FUNCTION(ACT_LCAPS),
-    [ACT_RCAPS] = ACTION_FUNCTION(ACT_RCAPS)
+    [ACT_RCAPS] = ACTION_FUNCTION(ACT_RCAPS),
+    [ACT_ESC] = ACTION_FUNCTION(ACT_ESC)
 };
 
 
@@ -249,6 +238,8 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
     static bool lshift=false;
     static bool rshift=false;
+    
+    static bool shift_esc=false;
 
     switch(id)
     {
@@ -290,6 +281,33 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                     send_keyboard_report();
                     rshift=false;
                 }
+            }
+            break;
+        case ACT_ESC:
+            if(record->event.pressed) //If key is being pressed
+            {
+                if((lshift || rshift) && !(lshift && rshift))
+                {
+                    add_key(KC_GRV);
+                    send_keyboard_report();
+                    shift_esc=true;
+                } else
+                {
+                    add_key(KC_ESC);
+                    send_keyboard_report();
+                }
+            } else
+            {
+                if(((lshift || rshift) && !(lshift && rshift)) || shift_esc)
+                {
+                    del_key(KC_GRV);
+                    send_keyboard_report();
+                    shift_esc=false;
+                } else
+                {
+                    del_key(KC_ESC);
+                    send_keyboard_report();
+                }               
             }
             break;
     }
