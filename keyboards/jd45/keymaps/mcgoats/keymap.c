@@ -53,6 +53,9 @@ enum actions
 //Macro to toggle caps lock
 #define TOGGLE_CAPS do { add_key(KC_CAPS); send_keyboard_report(); del_key(KC_CAPS); send_keyboard_report(); } while(0)
 
+//I couldn't find a right mod version of Meh, so here's my own
+#define KC_RMEH RCTL(RSFT(KC_RALT))
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Default (Colmak)
      * ¸---------------------------------------------------------------------------¸
@@ -62,14 +65,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |---------------------------------------------------------------------------|
      * | Shift |  Z  |  X  |  C  |  V  |  B  |  K  |  M  |  ,  |  .  |  /  | Shift |
      * |---------------------------------------------------------------------------|
-     * | LOWER| Meh | Super |  Alt  |SPC_CTRL|BckSpace|       | Super |     |      |
+     * | LOWER| Meh | Super |  Alt  |SPC_CTRL|BckSpace|  Alt  | Super | Meh | Ctrl |
      * ´---------------------------------------------------------------------------´
      */
     [_DEFAULT] = KEYMAP(
             ESCP, Q, W, F, P, G, J, L, U, Y, SCLN, QUOT, BSLS,
             TAB_FN, A, R, S, T, D, H, N, E, I, O, ENT,
             LSFTC, Z, X, C, V, B, K, M, COMM, DOT, SLSH, RSFTC,
-            LOWER, MEH, LGUI, LALT, SPC_CTRL, BSPC, XXXXXXX, RGUI, XXXXXXX, XXXXXXX
+            LOWER, MEH, LGUI, LALT, SPC_CTRL, BSPC, RALT, RGUI, RMEH, RCTRL 
             ),
 
     /* Raise
