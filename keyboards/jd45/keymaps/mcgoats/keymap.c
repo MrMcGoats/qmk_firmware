@@ -15,9 +15,10 @@ enum layers
     _ADJUST,
     _GAME1,
     _GAME2,
+    _GAME3, //For speedrunning Bioshock
     _GRAISE,
     _LABEL,
-    _LABEL_FN
+    _LABEL_FN,
 };
 
 
@@ -46,6 +47,7 @@ enum actions
 #define KC_DEFAULT TO(_DEFAULT)
 #define KC_GAME1 TO(_GAME1)
 #define KC_GAME2 TO(_GAME2)
+#define KC_GAME3 TO(_GAME3)
 #define KC_GRAISE MO(_GRAISE)
 #define KC_LABEL_DEFAULT TO(_LABEL)
 #define KC_LABEL_FN MO(_LABEL_FN)
@@ -112,7 +114,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             ),
     /* Adjust
      * ¸---------------------------------------------------------------------------¸
-     * |   |Defau|Game1|Game2|Lower|     |     |     |     |     |     |     |     |
+     * |   |Defau|Game1|Game2|Game3|Lower|     |     |     |     |     |     |     |
      * |---------------------------------------------------------------------------|
      * |      |Label|     |     |     |     |     |     |     |     |     |        |
      * |---------------------------------------------------------------------------|
@@ -122,7 +124,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ´---------------------------------------------------------------------------´
      */
     [_ADJUST] = KEYMAP(
-            XXXXXXX, DEFAULT, GAME1, GAME2, LOWER_PERM, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+            XXXXXXX, DEFAULT, GAME1, GAME2, GAME3, LOWER_PERM, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
             XXXXXXX, LABEL_DEFAULT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
@@ -211,8 +213,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             CAPS, LEFT, DOWN, RGHT, 4, 5, 6, INS, HOME, PGUP, SCLN, _______,
             _______, _______, _______, _______, 1, 2, 3, DEL, END, PGDN, _______, _______,
             _______, _______, _______, _______, _______, _______, _______, _______, _______, ADJUST
+            ),
+
+    /* Speedrunning
+     * ¸---------------------------------------------------------------------------¸
+     * |ESC|  Q  |  W  |  E  |  R  |  T  |  Y  |  U  |  I  |  O  |  P  |  '  | End |
+     * |---------------------------------------------------------------------------|
+     * | TAB  |  A  |  S  |  D  |  F  |  G  |  H  |  J  |  K  |  L  |  ;  |  Enter |
+     * |---------------------------------------------------------------------------|
+     * | Shift |  Z  |  X  |  C  |  V  |  B  |  N  |  M  |  ,  |  .  |  /  | Shift |
+     * |---------------------------------------------------------------------------|
+     * | Ctrl |  \  |GRaise |  Alt  | Space  |  Prev  |  Alt  | Super |Raise|Lower |
+     * ´---------------------------------------------------------------------------´
+     */
+    [_GAME3] = KEYMAP(
+            ESCP, Q, W, E, R, T, Y, U, I, O, P, QUOT, END,
+            TAB, A, S, D, F, G, H, J, K, L, SCLN, ENT,
+            LSFT, Z, X, C, V, B, N, M, COMM, DOT, SLSH, RSFT,
+            LCTRL, BSLS, GRAISE, LALT, SPC, MEDIA_PREV_TRACK, RALT, LGUI, RAISE, LOWER
             )
-    
+
 };
 
 
@@ -241,7 +261,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
     static bool lshift=false;
     static bool rshift=false;
-    
+
     static bool shift_esc=false;
 
     switch(id)
@@ -255,7 +275,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                     send_keyboard_report();
                     lshift=true;
                 } else
-                   TOGGLE_CAPS; 
+                    TOGGLE_CAPS; 
             } else //if key is being released
             {
                 if(!rshift)
