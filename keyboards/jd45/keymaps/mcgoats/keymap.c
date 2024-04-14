@@ -31,7 +31,7 @@ enum actions
 
 
 
-// increase readability 
+// increase readability
 #define KC________ KC_TRNS
 #define KC_XXXXXXX KC_NO
 #define KC_SPC_CTRL MT(MOD_LCTL,KC_SPC)
@@ -43,14 +43,13 @@ enum actions
 //Moving to different layers
 #define KC_LOWER MO(_LOWER)
 #define KC_LOWER_PERM TO(_LOWER)
+#define KC_RAISE TO(_RAISE)
 #define KC_ADJUST TO(_ADJUST)
 #define KC_DEFAULT TO(_DEFAULT)
 #define KC_GAME1 TO(_GAME1)
 #define KC_GAME2 TO(_GAME2)
 #define KC_GAME3 TO(_GAME3)
 #define KC_GRAISE MO(_GRAISE)
-#define KC_LABEL_DEFAULT TO(_LABEL)
-#define KC_LABEL_FN MO(_LABEL_FN)
 
 //Macro to toggle caps lock
 #define TOGGLE_CAPS do { add_key(KC_CAPS); send_keyboard_report(); del_key(KC_CAPS); send_keyboard_report(); } while(0)
@@ -74,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             ESCP, Q, W, F, P, G, J, L, U, Y, SCLN, QUOT, BSLS,
             TAB_FN, A, R, S, T, D, H, N, E, I, O, ENT,
             LSFTC, Z, X, C, V, B, K, M, COMM, DOT, SLSH, RSFTC,
-            LOWER, MEH, LGUI, LALT, SPC_CTRL, BSPC, RALT, RGUI, RMEH, RCTRL 
+            LOWER, MEH, LGUI, LALT, SPC_CTRL, BSPC, RALT, RGUI, RMEH, RCTRL
             ),
 
     /* Raise
@@ -125,7 +124,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
     [_ADJUST] = KEYMAP(
             XXXXXXX, DEFAULT, GAME1, GAME2, GAME3, LOWER_PERM, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-            XXXXXXX, LABEL_DEFAULT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
             ),
@@ -180,41 +179,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             _______, F6, F7, F8, F9, F10, F11, F12, APP, _______, PSCR, PAUS,
             _______, _______, _______, _______, _______, DEL, _______, _______, _______, ADJUST
             ),
-    /* Label — Layout to match how the stock keycaps are labeled
-     * ¸---------------------------------------------------------------------------¸
-     * |ESC|  Q  |  W  |  E  |  R  |  T  |  Y  |  U  |  I  |  O  |  P  |  [  | Bs  |
-     * |---------------------------------------------------------------------------|
-     * | TAB  |  A  |  S  |  D  |  F  |  G  |  H  |  J  |  K  |  L  |  '  |  Enter |
-     * |---------------------------------------------------------------------------|
-     * | Shift |  Z  |  X  |  C  |  V  |  B  |  N  |  M  |  ,  |  .  |  /  | Shift |
-     * |---------------------------------------------------------------------------|
-     * | Ctrl | Fn  |  Win  |  Alt  | Back   |  Space |  Alt  | Menu  |  Fn | Ctrl |
-     * ´---------------------------------------------------------------------------´
-     */
-    [_LABEL] = KEYMAP(
-            ESC, Q, W, E, R, T, Y, U, I, O, P, RBRC, BSPC,
-            TAB, A, S, D, F, G, H, J, K, L, QUOT, ENT,
-            LSFT, Z, X, C, V, B, N, M, COMM, DOT, SLSH, RSFT,
-            LCTRL, LABEL_FN, LGUI, LALT, BSPC, SPC, RALT, APP, LABEL_FN, RCTRL
-            ),
-    /* Label-Fn — Layout to match how the stock keycaps are labeled (Function layer), with the adition of the ADJUST key.
-     * ¸---------------------------------------------------------------------------¸
-     * | ` |     | Up  |     |  7  |  8  |  9  |  0  |  -  |  =  |     |  ]  |  \  |
-     * |---------------------------------------------------------------------------|
-     * | Caps |  ←  |  Dn |  →  |  4  |  5  |  6  | Ins | Home| PgUp|  ;  |        |
-     * |---------------------------------------------------------------------------|
-     * |       |     |     |     |  1  |  2  |  3  | Del | End | PgDn|     |       |
-     * |---------------------------------------------------------------------------|
-     * |      |     |       |       |        |        |       |       |     |ADJUST|
-     * ´---------------------------------------------------------------------------´
-     */
-    [_LABEL_FN] = KEYMAP(
-            GRV, _______, UP, _______, 7, 8, 9, 0, MINS, EQL, _______, LBRC, BSLS,
-            CAPS, LEFT, DOWN, RGHT, 4, 5, 6, INS, HOME, PGUP, SCLN, _______,
-            _______, _______, _______, _______, 1, 2, 3, DEL, END, PGDN, _______, _______,
-            _______, _______, _______, _______, _______, _______, _______, _______, _______, ADJUST
-            ),
-
     /* Speedrunning
      * ¸---------------------------------------------------------------------------¸
      * |ESC|  Q  |  W  |  E  |  R  |  T  |  Y  |  U  |  I  |  O  |  P  |  '  | End |
@@ -275,7 +239,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                     send_keyboard_report();
                     lshift=true;
                 } else
-                    TOGGLE_CAPS; 
+                    TOGGLE_CAPS;
             } else //if key is being released
             {
                 if(!rshift)
@@ -330,7 +294,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                 {
                     del_key(KC_ESC);
                     send_keyboard_report();
-                }               
+                }
             }
             break;
     }
