@@ -1,6 +1,6 @@
 //MrMcGoat's custom layout
 
-#include "jd45.h"
+#include QMK_KEYBOARD_H
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
@@ -24,7 +24,7 @@ enum layers
 
 enum actions
 {
-    ACT_LCAPS,
+    ACT_LCAPS = SAFE_RANGE,
     ACT_RCAPS,
     ACT_ESC,
 };
@@ -33,12 +33,12 @@ enum actions
 
 // increase readability
 #define KC________ KC_TRNS
-#define KC_XXXXXXX KC_NO
+//#define KC_XXXXXXX KC_NO
 #define KC_SPC_CTRL MT(MOD_LCTL,KC_SPC)
 #define KC_TAB_FN LT(_RAISE,KC_TAB)
-#define KC_LSFTC F(ACT_LCAPS) //Press both shifts to toggle caps lock
-#define KC_RSFTC F(ACT_RCAPS)
-#define KC_ESCP F(ACT_ESC)
+#define KC_LSFTC ACT_LCAPS //Press both shifts to toggle caps lock
+#define KC_RSFTC ACT_RCAPS
+#define KC_ESCP ACT_ESC
 
 //Moving to different layers
 #define KC_LOWER MO(_LOWER)
@@ -69,11 +69,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * | LOWER| Meh | Super |  Alt  |SPC_CTRL|BckSpace|  Alt  | Super | Meh | Ctrl |
      * ´---------------------------------------------------------------------------´
      */
-    [_DEFAULT] = KEYMAP(
-            ESCP, Q, W, F, P, G, J, L, U, Y, SCLN, QUOT, BSLS,
-            TAB_FN, A, R, S, T, D, H, N, E, I, O, ENT,
-            LSFTC, Z, X, C, V, B, K, M, COMM, DOT, SLSH, RSFTC,
-            LOWER, MEH, LGUI, LALT, SPC_CTRL, BSPC, RALT, RGUI, RMEH, RCTRL
+    [_DEFAULT] = LAYOUT(
+            KC_ESCP, KC_Q, KC_W, KC_F, KC_P, KC_G, KC_J, KC_L, KC_U, KC_Y, KC_SCLN, KC_QUOT, KC_BSLS,
+            KC_TAB_FN, KC_A, KC_R, KC_S, KC_T, KC_D, KC_H, KC_N, KC_E, KC_I, KC_O, KC_ENT,
+            KC_LSFTC, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_K, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFTC,
+            KC_LOWER, KC_MEH, KC_LGUI, KC_LALT, KC_SPC_CTRL, KC_BSPC, KC_RALT, KC_RGUI, KC_RMEH, KC_RCTL
             ),
 
     /* Raise
@@ -87,11 +87,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |      |     |       |       |        | Delete |       |       |     |ADJUST|
      * ´---------------------------------------------------------------------------´
      */
-    [_RAISE] = KEYMAP(
-            GRV, EXLM, AT, HASH, DLR, PERC, CIRC, AMPR, ASTR, LPRN, RPRN, MINS, EQL,
-            _______, MEDIA_PREV_TRACK, MEDIA_PLAY_PAUSE, MEDIA_NEXT_TRACK, _______, _______, LEFT, DOWN, UP, RGHT, _______, _______,
-            _______, APP, _______, _______, _______, _______, END, PGDN, PGUP, HOME, PSCR, PAUS,
-            _______, _______, _______, _______, _______, DEL, _______, _______, _______, ADJUST
+    [_RAISE] = LAYOUT(
+            KC_GRV, KC_EXLM, KC_AT, KC_HASH, KC_DLR, KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_MINS, KC_EQL,
+            KC________, KC_MEDIA_PREV_TRACK, KC_MEDIA_PLAY_PAUSE, KC_MEDIA_NEXT_TRACK, KC________, KC________, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC________, KC________,
+            KC________, KC_APP, KC________, KC________, KC________, KC________, KC_END, KC_PGDN, KC_PGUP, KC_HOME, KC_PSCR, KC_PAUS,
+            KC________, KC________, KC________, KC________, KC________, KC_DEL, KC________, KC________, KC________, KC_ADJUST
             ),
 
     /* Lower
@@ -105,11 +105,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |      |     |       |       |        |  Num0  |       |       |     |ADJUST|
      * ´---------------------------------------------------------------------------´
      */
-    [_LOWER] = KEYMAP(
-            _______, F1, F2, F3, F4, _______, P7, P8, P9, LBRC, RBRC, MINS, NLCK,
-            _______, F5, F6, F7, F8, _______, P4, P5, P6, _______, _______, _______,
-            _______, F9, F10, F11, F12, _______, P1, P2, P3, _______, _______, _______,
-            _______, _______, _______, _______, _______, P0, _______, _______, _______, ADJUST
+    [_LOWER] = LAYOUT(
+            KC________, KC_F1, KC_F2, KC_F3, KC_F4, KC________, KC_P7, KC_P8, KC_P9, KC_LBRC, KC_RBRC, KC_MINS, KC_NUM,
+            KC________, KC_F5, KC_F6, KC_F7, KC_F8, KC________, KC_P4, KC_P5, KC_P6, KC________, KC________, KC________,
+            KC________, KC_F9, KC_F10, KC_F11, KC_F12, KC________, KC_P1, KC_P2, KC_P3, KC________, KC________, KC________,
+            KC________, KC________, KC________, KC________, KC________, KC_P0, KC________, KC________, KC________, KC_ADJUST
             ),
     /* Adjust
      * ¸---------------------------------------------------------------------------¸
@@ -122,8 +122,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |      |     |       |       |        |        |       |       |     |      |
      * ´---------------------------------------------------------------------------´
      */
-    [_ADJUST] = KEYMAP(
-            XXXXXXX, DEFAULT, GAME1, GAME2, GAME3, LOWER_PERM, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    [_ADJUST] = LAYOUT(
+            XXXXXXX, KC_DEFAULT, KC_GAME1, KC_GAME2, KC_GAME3, KC_LOWER_PERM, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
@@ -139,11 +139,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * | Ctrl |  \  |GRaise |  Alt  | Space  |BckSpace|   /   |   ←   |  Dn |  →   |
      * ´---------------------------------------------------------------------------´
      */
-    [_GAME1] = KEYMAP(
-            ESCP, Q, W, F, P, G, J, L, U, Y, SCLN, QUOT, END,
-            TAB, A, R, S, T, D, H, N, E, I, O, ENT,
-            LSFT, Z, X, C, V, B, K, M, COMM, DOT, UP, RSFT,
-            LCTRL, BSLS, GRAISE, LALT, SPC, BSPC, SLSH, LEFT, DOWN, RGHT
+    [_GAME1] = LAYOUT(
+            KC_ESCP, KC_Q, KC_W, KC_F, KC_P, KC_G, KC_J, KC_L, KC_U, KC_Y, KC_SCLN, KC_QUOT, KC_END,
+            KC_TAB, KC_A, KC_R, KC_S, KC_T, KC_D, KC_H, KC_N, KC_E, KC_I, KC_O, KC_ENT,
+            KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_K, KC_M, KC_COMM, KC_DOT, KC_UP, KC_RSFT,
+            KC_LCTL, KC_BSLS, KC_GRAISE, KC_LALT, KC_SPC, KC_BSPC, KC_SLSH, KC_LEFT, KC_DOWN, KC_RGHT
             ),
     /* Gaming (QWERTY)
      * ¸---------------------------------------------------------------------------¸
@@ -156,11 +156,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * | Ctrl |  \  |GRaise |  Alt  | Space  |BckSpace|   /   |   ←   |  Dn |  →   |
      * ´---------------------------------------------------------------------------´
      */
-    [_GAME2] = KEYMAP(
-            ESCP, Q, W, E, R, T, Y, U, I, O, P, QUOT, END,
-            TAB, A, S, D, F, G, H, J, K, L, SCLN, ENT,
-            LSFT, Z, X, C, V, B, N, M, COMM, DOT, UP, RSFT,
-            LCTRL, BSLS, GRAISE, LALT, SPC, BSPC, SLSH, LEFT, DOWN, RGHT
+    [_GAME2] = LAYOUT(
+            KC_ESCP, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_QUOT, KC_END,
+            KC_TAB, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_ENT,
+            KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_UP, KC_RSFT,
+            KC_LCTL, KC_BSLS, KC_GRAISE, KC_LALT, KC_SPC, KC_BSPC, KC_SLSH, KC_LEFT, KC_DOWN, KC_RGHT
             ),
     /* GRaise
      * ¸---------------------------------------------------------------------------¸
@@ -173,11 +173,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |      |     |       |       |        | Delete |       |       |     |ADJUST|
      * ´---------------------------------------------------------------------------´
      */
-    [_GRAISE] = KEYMAP(
-            GRV, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, MINS, EQL,
-            _______, F1, F2, F3, F4, F5, LEFT, DOWN, UP, RGHT, _______, _______,
-            _______, F6, F7, F8, F9, F10, F11, F12, APP, _______, PSCR, PAUS,
-            _______, _______, _______, _______, _______, DEL, _______, _______, _______, ADJUST
+    [_GRAISE] = LAYOUT(
+            KC_GRV, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL,
+            KC________, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC________, KC________,
+            KC________, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_APP, KC________, KC_PSCR, KC_PAUS,
+            KC________, KC________, KC________, KC________, KC________, KC_DEL, KC________, KC________, KC________, KC_ADJUST
             ),
     /* Speedrunning
      * ¸---------------------------------------------------------------------------¸
@@ -190,45 +190,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * | Ctrl |  \  |GRaise |  Alt  | Space  |  Prev  |  Alt  | Super |Raise|Lower |
      * ´---------------------------------------------------------------------------´
      */
-    [_GAME3] = KEYMAP(
-            ESCP, Q, W, E, R, T, Y, U, I, O, P, QUOT, END,
-            TAB, A, S, D, F, G, H, J, K, L, SCLN, ENT,
-            LSFT, Z, X, C, V, B, N, M, COMM, DOT, SLSH, RSFT,
-            LCTRL, BSLS, GRAISE, LALT, SPC, MEDIA_PREV_TRACK, RALT, LGUI, RAISE, LOWER
+    [_GAME3] = LAYOUT(
+            KC_ESCP, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_QUOT, KC_END,
+            KC_TAB, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_ENT,
+            KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT,
+            KC_LCTL, KC_BSLS, KC_GRAISE, KC_LALT, KC_SPC, KC_MEDIA_PREV_TRACK, KC_RALT, KC_LGUI, KC_RAISE, KC_LOWER
             )
 
 };
 
-
-enum function_id {
-    LAUNCH,
-    RGBLED_TOGGLE,
-};
-
-const uint16_t PROGMEM fn_actions[] = {
-    [ACT_LCAPS] = ACTION_FUNCTION(ACT_LCAPS),
-    [ACT_RCAPS] = ACTION_FUNCTION(ACT_RCAPS),
-    [ACT_ESC] = ACTION_FUNCTION(ACT_ESC)
-};
-
-
-
-
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
-{
-    // MACRODOWN only works in this function
-
-    return MACRO_NONE;
-};
-
-void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
-{
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static bool lshift=false;
     static bool rshift=false;
 
     static bool shift_esc=false;
 
-    switch(id)
+    switch(keycode)
     {
         case ACT_LCAPS:
             if(record->event.pressed) //If the key is being pressed
@@ -249,7 +226,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                     lshift=false;
                 }
             }
-            break;
+            return false;
         case ACT_RCAPS:
             if(record->event.pressed) //If the key is being pressed
             {
@@ -269,7 +246,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                     rshift=false;
                 }
             }
-            break;
+            return false;
         case ACT_ESC:
             if(record->event.pressed) //If key is being pressed
             {
@@ -296,7 +273,10 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                     send_keyboard_report();
                 }
             }
-            break;
+
+            return false;
+        default:
+            return true;
     }
 }
 
