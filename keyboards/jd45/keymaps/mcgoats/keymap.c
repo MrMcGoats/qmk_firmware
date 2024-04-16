@@ -82,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |---------------------------------------------------------------------------|
      * |      |Prev |Play |Next |     |     |  ←  |  Dn |  Up |  →  |     |        |
      * |---------------------------------------------------------------------------|
-     * |       |Menu |     |     |     |     | End | PgDn| PgUp|Home |PntSc| Pause |
+     * |       |Menu | VolU|VolD |Mute |     | End | PgDn| PgUp|Home |PntSc| Pause |
      * |---------------------------------------------------------------------------|
      * |      |     |       |       |        | Delete |       |       |     |ADJUST|
      * ´---------------------------------------------------------------------------´
@@ -90,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_RAISE] = LAYOUT(
             KC_GRV, KC_EXLM, KC_AT, KC_HASH, KC_DLR, KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_MINS, KC_EQL,
             KC________, KC_MEDIA_PREV_TRACK, KC_MEDIA_PLAY_PAUSE, KC_MEDIA_NEXT_TRACK, KC________, KC________, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC________, KC________,
-            KC________, KC_APP, KC________, KC________, KC________, KC________, KC_END, KC_PGDN, KC_PGUP, KC_HOME, KC_PSCR, KC_PAUS,
+            KC________, KC_APP, KC_KB_VOLUME_UP, KC_KB_VOLUME_DOWN, KC_KB_MUTE, KC________, KC_END, KC_PGDN, KC_PGUP, KC_HOME, KC_PSCR, KC_PAUS,
             KC________, KC________, KC________, KC________, KC________, KC_DEL, KC________, KC________, KC________, KC_ADJUST
             ),
 
