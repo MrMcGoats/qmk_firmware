@@ -37,35 +37,35 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         switch(keycode) {
         case RGB_MATRIX_TOGGLE: // toggle rgb matrix
             rgb_matrix_toggle();
-            return false;
+            break;
         case RGB_MATRIX_MODE_INC:
             rgb_matrix_step();
-            return false;
+            break;
         case RGB_MATRIX_MODE_DEC:
             rgb_matrix_step_reverse();
-            return false;
+            break;
         case RGB_MATRIX_HUE_INC:
             rgb_matrix_increase_hue();
-            return false;
+            break;
         case RGB_MATRIX_HUE_DEC:
             rgb_matrix_decrease_hue();
-            return false;
+            break;
         case RGB_MATRIX_SAT_INC:
             rgb_matrix_increase_sat();
-            return false;
+            break;
         case RGB_MATRIX_SAT_DEC:
             rgb_matrix_decrease_sat();
-            return false;
+            break;
         case RGB_MATRIX_VAL_INC:
             rgb_matrix_increase_val();
-            return false;
+            break;
         case RGB_MATRIX_VAL_DEC:
             rgb_matrix_decrease_val();
-            return false;
-        default:
             break;
+        default:
+            return true;
         }
     }
-    return true;
+    return false;
 }
 #endif
